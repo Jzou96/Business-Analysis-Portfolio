@@ -26,7 +26,7 @@
   <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/New%20Flavor%20Launch%20Analysis%20using%20TURF%20Model.R">Yogurt new flavor launch analysis using survey data</a> </li></ul>
 
 <ul>
-  <li> <a href="http://h3.pdfdo.com/Download/112219434127/112219434127.html">analysis report</a> </li></ul>
+  <li> <a href="http://h3.pdfdo.com/Download/112219434127/112219434127.html">Analysis report</a> </li></ul>
 
 <p>Wegmans want to idenitfy the necessity of launching new yogurt flavors according to survey sent to a sample of current buyers of Greek Yogurt. We conducted descriptive analysis using SQL to check market share of existed flavors and prospect. Next, we used TURF analysis to calculate reach and predict the best set of next flavors to add to achieve the highest reach according to survey respondents preferences.</p>
 
@@ -49,7 +49,7 @@
 <ul>
   <li> <a href="http://q7.pdfdo.com/Download/112220332397/112220332397.html">Analysis report</a> </li></ul>
   
- <p>We need to determine the market potential of a Conquistador beer distributorship in Southwestern Oregon for client through analyzing beer market consumption and client’s financial capability, forecast revenue and cost.</p>
+ <p>The wine retailer want to know if email promotion is effective and who to target with the email campaign. Firstly, we use average causal effect analysis to evaluate email contribution to sales overall. Then we do slicing and dicing to split customers and apply conditional causal effect analysis to quantify different email effcts on different segments of cusomers. Finally, we use causal forest instead of uplift modeling to score customers and determind which segments should be target.</p>
 
 ### Marketing Profitability Analysis
 
