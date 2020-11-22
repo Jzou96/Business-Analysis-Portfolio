@@ -1,10 +1,12 @@
 ## Project Gallery 
 
+<p>我是邹婧，你可以叫我Rebecca</p>
+</p> 欢迎来到我的个人作品网站 </p>
+<p>Hello Welcome to my portfolio site</p>
+
 ### Experiement and A/B Test
 
-<p>Hello Welcome to my portfolio site</p>
-<p>我是邹婧，你可以叫我Rebecca
-   欢迎你来到我的个人网站。 </p>
+
 <p></p>
 
 <ul>
