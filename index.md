@@ -7,7 +7,9 @@
 
 
 1. [eBay ads A/B testing](https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd)
-This experiment is to evaluate effectiveness of search ads on eBay.
+<p>This experiment is to evaluate effectiveness of search ads on eBay.</p>
+
+
 
 
 ### Causal Analysis
