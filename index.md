@@ -8,7 +8,7 @@
 ### Experiement and A/B Test
 
 <ul>
-  <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd">eBay ads A/B testing </a> </li></ul>
+ <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd">eBay ads A/B testing </a> </li></ul>
 <p>This experiment is to evaluate effectiveness of search ads on eBay.</p>
 
 
