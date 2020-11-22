@@ -1,0 +1,80 @@
+---
+#Conduct statistical testing on two-control and treatment groups after randomization check
+---
+
+**Load the dataset:**
+```{r Question 1A}
+library(readr)
+ebaydata <- read_csv("Homework 1 Data - 436R.csv")
+View(ebaydata)
+```
+
+
+**Check first 10 rows:**
+```{r Question 1B}
+head(ebaydata, 10)
+```
+
+
+**Determine treatment period start date**
+```{r Question 1C}
+ebaydata$rDate= as.Date(paste(ebaydata$date),'%m/%d/%Y')
+ebay_posttreat <- subset(ebaydata, ebaydata$isTreatmentPeriod == 1)
+View(ebay_posttreat)
+subset(ebay_posttreat, date == min(ebay_posttreat$date), select = date)
+```
+
+**Compare treatment group before and after treatment periods**
+```{r Question 1D}
+ebaydataTG <- subset(ebaydata, ebaydata$isTreatmentGroup == 1)
+View(ebaydataTG)
+lm(log(revenue)~isTreatmentPeriod, data = ebaydataTG)
+summary(lm(log(revenue)~isTreatmentPeriod, data = ebaydataTG))
+```
+
+
+**Compare control group**
+```{r Question 1E}
+#INSERT CODE HERE
+ebay_pretreat <- subset(ebaydata, ebaydata$isTreatmentPeriod == 0)
+lm(log(revenue)~ isTreatmentGroup, data = ebay_pretreat)
+summary(lm(log(revenue)~ isTreatmentGroup, data = ebay_pretreat))
+```
+
+
+**Effectiveness of eBay ads**
+```{r Question 1F}
+#INSERT CODE HERE
+ebay_posttreat <- subset(ebaydata, ebaydata$isTreatmentPeriod == 1)
+lm(log(revenue)~ isTreatmentGroup, data = ebay_posttreat)
+summary(lm(log(revenue)~ isTreatmentGroup, data = ebay_posttreat))
+```
+
+**Summary**
+```{r}
+#The purpose of the control group here is to test whether search ads from ebay shown leads to changes on revenue. 
+#In part1f, the randomization pick of elements was considered, which was not considered in part1d.
+
+#Since the value of independent factor here-isTreatmentPeriod is either 0 or 1, the binary0-1 case's regression result shows that when isTreatmentPeriod is 0, the intercept 10.94865 represents log(revenue) on pre-treatment period when there are search ads from ebay. 
+
+#when isTreatmentPeriod is 1, the sum of intercept and isTreatmentPeriod coefficients represent log(revenue) on treatment period without ads, which is 10.90925.
+
+#Now looking at t-value and P-value, we should reject null hypothesis about intercept that its coefficient is 0 since p-value is too low and we should reject null hypothesis about isTreatmentPeriod that its coefficient is 0 since P-value is still smaller than 0.05, which means that on treatmentgroup, if there are no reasearch ads, revenue decreases.  
+
+#Here the independent factor- isTreatmentGroup is either 0 or 1, so the binary regression's result shows that when isTreatmentGroup is 0, the log(revenue) on the control group equals to intercept coefficient which is 10.96273. 
+
+#When isTreatmentGroup is 1, the log(revenue) on the treatment group equals to the sum of intercept and isTreatmentGroup's coefficient, which means the coefficient of isTreatmentGroup presents log(revenue) differences on these two groups. 
+
+#Since the P-value is 0.57, which means the null hypothesis that isTreatmentGroup's coefficient equals 0 can not be rejected and thus there is no statistically significant difference between the two groups before treatment. 
+
+#Here the independent factor- isTreatmentGroup is either 0 or 1, so the binary regression's result shows that when isTreatmentGroup is 0, the log(revenue) on the control group with ads equals to intercept coefficient which is 10.91674.
+
+#When isTreatmentGroup is 1, the log(revenue) on the treatment group without ads equals to the sum of intercept and isTreatmentGroup's coefficient, which means the coefficient of isTreatmentGroup presents log(revenue) differences on these two groups. 
+
+#The P-value of isTreatmentGroup's coefficient is as high as 0.741, which means we can not reject the null hypothesis that it equals 0 and this means there is no statistically significant differences in revenue between these two groups after treatment.
+
+#In part 1f, the value of R-squared is pretty small, which means this regression model does not fit well the relationship between log(revenue) and isTreatmentGroup.Thus, it will diminish the confidence in estimate of the effectiveness of ads using the regression outputs. 
+
+```
+
+
