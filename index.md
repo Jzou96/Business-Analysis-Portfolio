@@ -3,15 +3,14 @@
 <p>欢迎来到我的个人作品网站</p>
 <p>Hello Welcome to my portfolio site</p>
 
+
+
 ### Experiement and A/B Test
 
 <ul>
   <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd">eBay ads A/B testing </a> </li></ul>
 <p>This experiment is to evaluate effectiveness of search ads on eBay.</p>
 
-[eBay ads A/B testing](https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd)
-
-![image](https://github.com/Jzou96/Portfolio/blob/gh-pages/1.png)
 
 ### Causal Analysis
 
@@ -19,9 +18,16 @@
 <p>This experiment is to evaluate effectiveness of search ads on eBay.</p>
 
 
+## New Product Launch Strategy-TURF Model
+<p>Wegmans want to idenitfy the necessity of launching new yogurt flavors according to survey sent to a sample of current buyers of Greek Yogurt. We conducted descriptive analysis using SQL to check market share of existed flavors and prospect. Next, we used TURF analysis to calculate reach and predict the best set of next flavors to add to achieve the highest reach according to survey respondents preferences.</p>
+  
+
 
 <ul>
-  <li> <a href="https://www.zhihu.com/people/AJLoveChina">A/B Testing </a> </li>
+  <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/New%20Flavor%20Launch%20Analysis%20using%20TURF%20Model.R">Yogurt New Flavor Launch Analysis using survey data</a> </li></ul>
+
+
+<ul>
   <li> <a href="http://hejie.nigeerhuo.com">New Product Launch Strategy</a> </li>
 </ul>
 <p>This a project that uses TURF Analysis</p>
@@ -49,10 +55,4 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Jzou96/Jzourebecca13/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
