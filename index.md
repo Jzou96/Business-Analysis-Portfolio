@@ -2,9 +2,10 @@
 
 ### Experiement and A/B Test
 
-<p>Hello 大家好</p>
-<p>我是霸都丶傲天，这是我的个人网站。 </p>
-<p>很高兴你来到这里, 你可以在以下的网站找到我</p>
+<p>Hello Welcome to my portfolio site</p>
+<p>我是邹婧，你可以叫我Rebecca
+   欢迎你来到我的个人网站。 </p>
+<p></p>
 
 <ul>
   <li> <a href="https://www.zhihu.com/people/AJLoveChina">A/B Testing </a> </li>
