@@ -7,10 +7,10 @@
 <p>很高兴你来到这里, 你可以在以下的网站找到我</p>
 
 <ul>
-  <li> <a href="https://www.zhihu.com/people/AJLoveChina">知乎</a> </li>
-  <li> <a href="http://hejie.nigeerhuo.com">我的博客(已经不更细了,现在在知乎写文章)</a> </li>
+  <li> <a href="https://www.zhihu.com/people/AJLoveChina">A/B Testing </a> </li>
+  <li> <a href="http://hejie.nigeerhuo.com">New Product Launch Strategy</a> </li>
 </ul>
-
+<p>This a project that uses TURF Analysis</p>
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
