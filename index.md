@@ -22,7 +22,6 @@
 <p>Wegmans want to idenitfy the necessity of launching new yogurt flavors according to survey sent to a sample of current buyers of Greek Yogurt. We conducted descriptive analysis using SQL to check market share of existed flavors and prospect. Next, we used TURF analysis to calculate reach and predict the best set of next flavors to add to achieve the highest reach according to survey respondents preferences.</p>
   
 
-
 <ul>
   <li> <a href="https://github.com/Jzou96/Portfolio/blob/gh-pages/New%20Flavor%20Launch%20Analysis%20using%20TURF%20Model.R">Yogurt New Flavor Launch Analysis using survey data</a> </li></ul>
 
