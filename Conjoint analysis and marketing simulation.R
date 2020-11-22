@@ -421,12 +421,3 @@ sc4_prl = (0.3*4000*54.99+0.265*4000*66.99)*5-20000*2*5-20000*2**1/3
 sc5_prl = (0.3*4000*54.99+0.13*4000*62.99)*5-20000*2*5-20000*2**1/3
 sc6_prl = (0.265*4000*66.99+0.13*4000*62.99)*5-20000*2*5-20000*2*1/3
 # for 5 years long-term profit, scenario 3 also drive highest profit 
-
-
-#if considering competitiors responses, since our product sets do not conflict with competitors product(which is profile 7 or)
-
-
-
-
-
-
