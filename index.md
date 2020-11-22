@@ -12,14 +12,6 @@
 <p>This experiment is to evaluate effectiveness of search ads on eBay.</p>
 
 
-### Causal Analysis
-
-### Predictive Analysis
-
-
-
-
-
 ### New Product Launch Strategy-TURF Model
 
 <ul>
