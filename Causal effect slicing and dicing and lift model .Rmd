@@ -1,0 +1,327 @@
+---
+title: "assignment 4 Jing Rmarkdown"
+output: html_document
+---
+rm(list=ls()); gc();
+
+```{r}
+# load data and summary data
+setwd("C:/Users/ZJ/Desktop/analytics design and application/assignment/assignment 4")
+library(dplyr)
+library(tidyr)
+library(data.table)
+library(ggplot2)
+library(grf)
+
+email = read.csv("test_data_1904.csv")
+
+summary(email)
+```
+
+```{r}
+# We can depict the average effects in table and graph form as follows:
+emailt= data.table(email)
+dagg1 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group)]
+dagg1
+```
+
+
+```{r}
+##For this case explanation, we will focus on the purchases variable. 
+dodge1 = position_dodge(width=1); ##to form constant dimensions
+ggplot(aes(x=group,y=purch,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg1)+
+  geom_bar(position=dodge1,stat="identity",col=2:3,fill=2:3) + 
+  geom_errorbar(position=dodge1)
+labs(x="Group",y="Purchases")
+
+```
+
+# Q1
+```{r}
+## To evaluate the average causal effect on purchases we use lm as follows. 
+#compares each email to control group
+summary(lm(purch~group,data=email))
+# All effects are both highly significant and the effect sizes is $1.35.which means If group is email instead of control, the purchase will increase 1.35. 
+# This is becuase that we didn't segment and target with people who have purchased, so we cannot make effective predictions.
+
+## do we need to look at the SE and adjusted R to check if The precision of our estimates is sufficient here 
+#to establish the average effect, but if they didn't we could try to add covariates to absorb some of the error and
+# reduce the standard errors. We can do this as follows here:
+
+summary(lm(purch~group+chard+sav_blanc+syrah+cab+past_purch+last_purch+visits,data = email)) #adding baseline variables as controls
+# First, the first model included all of the purchases by product category--{chard},{sav_blanc},{syrah} and{cab}--
+#along with the total past purchases, {past_purch}. These are perfectly collinear because {past_purch=chard+sav_blanc+syrah+cab}. 
+#Hence, in the first regression above, the row for {past_purch} is NA. In the following regressions, 
+# we drop the {past_purch} variable.
+summary(lm(purch~group+chard+sav_blanc+syrah+cab+last_purch+visits,data = email)) #adding controls
+
+```
+
+#Q2
+### slicing and dicing 
+## firstly we choose baseline variables for slicing 
+#Anyone who keeps historic data on customers or visitors has lots of baseline variables available for slicing and dicing:   
+#website visits (to particular parts of the site)
+#sign-ups
+# geographic location
+# source
+# past purchase (by category)
+#recency
+# frequency
+
+```{r}
+# past purchase amount 
+mean(email$past_purch)
+median(email$past_purch) #53
+#calculate past purchase percentile
+percentile = as.data.frame(quantile(email$past_purch,seq(0,1,0.02)))
+percentile$percentile = rownames(percentile)
+colnames(percentile) = c('past_purch','percentile')
+ggplot(data=percentile, aes(x = reorder(percentile, past_purch), y=past_purch)) +
+  geom_bar(stat="identity")
+# so we use $53 which is median as the criteria 
+email$pastPurch = (email$past_purch > 53)
+
+dagg1 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,pastPurch)]
+dagg1
+# past buyers who buy more than median amount of money, they buy more on average no matter in control group(18.03>7.57) or email group(19.63>8.56)
+# email does increase the purchase probability for both purchase-more buyers (19.63>18.03)or purchase-less(8.56>7.57) customers 
+# email seems to produce a stronger effect on  purchase-more than purchase-less customer  (19.63-18.03>8.56-7.57)
+
+#is email more effective on purchase-less buyers?
+dodge1 = position_dodge(width=1); ##to form constant dimensions
+ggplot(aes(fill=group,y=purch,x=pastPurch,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg1)+
+  geom_bar(position=dodge1,stat="identity") + 
+  geom_errorbar(position=dodge1)
+labs(x="Group",y="Purchases")
+# email seems to produce a stronger effect on  purchase-more than purchase-less customer
+
+##### Measuring causal effects with regression: Conditional causal effects
+summary(lm(purch~group*pastPurch,data=email))
+summary(lm(purch~pastPurch + group:pastPurch,data=email)) 
+# we choose the second regression model with all significant effects from email 
+# email seems to produce a stronger effect on purchase-more customer than on purchase-less customer 
+
+```
+
+
+```{r}
+
+## Slicing and dicing: recent buyers versus non-recent customers
+mean(email$last_purch)
+median(email$last_purch)
+percentile2 = as.data.frame(quantile(email$last_purch,seq(0,1,0.02)))
+percentile2$percentile = rownames(percentile2)
+colnames(percentile2) = c('last_purch','percentile')
+ggplot(data=percentile2, aes(x = reorder(percentile, last_purch), y=last_purch)) +
+  geom_bar(stat="identity")
+#so we use median 63 days 
+email$recentpurch = (email$last_purch < 63)
+emailt= data.table(email)
+
+dagg2 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,recentpurch)]
+dagg2
+# rencent buyers buy more on average comparing recentPurch=T/F across control group(19.03>6.56) and email group(20.78>7.41)
+# email does increase the purchase probability for both recent buyers or old customers 
+# email seems to produce a stronger effect on purchases for recent customers (20.78-19.03 >7.41-6.56  )
+
+#is email more effective for non-recent buyers?
+dodge2 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=recentpurch,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg2)+
+  geom_bar(position=dodge2,stat="identity") + 
+  geom_errorbar(position=dodge2)
+labs(x="Group",y="Purchases")
+# email seems to produce a stronger effect on purchases for recent customers
+
+##### Measuring causal effects with regression: Conditional causal effects
+summary(lm(purch~group*recentpurch,data=email)) #compares each email to control group
+summary(lm(purch~recentpurch + group:recentpurch,data=email)) 
+#  we choose the second regression model with all significant effects from email 
+# email seems to produce a stronger effect on recent buyers than on non-recent buyers 
+
+```
+
+
+
+```{r}
+# less-frequent visits VS frequent visits 
+mean(email$visits)
+median(email$visits) # 5 
+#calculate visits percentile
+percentile3 = as.data.frame(quantile(email$visits,seq(0,1,0.02)))
+percentile3$percentile = rownames(percentile3)
+colnames(percentile3) = c('visits','percentile')
+ggplot(data=percentile3, aes(x = reorder(percentile, visits), y=visits)) +
+  geom_bar(stat="identity")
+### so we use 5 as criteria to distinguish frequent and non-frequent customers 
+email$frequency = (email$visits > 5)
+emailtemailt= data.table(email)
+
+dagg3 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,frequency)]
+dagg3
+# rencent buyers buy more on average comparing recentPurch=T/F across control group(15.29>10.47) and email group(16.46>11.96)
+# email does increase the purchase probability for both recent buyers or old customers 
+# email seems to produce a stronger effect on purchases for non-frequent customers ( 11.96-10.47>16.46-15.29)
+
+#is email more effective for frequent buyers?
+dodge3 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=frequency,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg3)+
+  geom_bar(position=dodge3,stat="identity") + 
+  geom_errorbar(position=dodge3)
+labs(x="Group",y="Purchases")
+# email seems to produce a stronger effect on purchases for non-frequent customers
+
+##### Measuring causal effects with regression: Conditional causal effects
+summary(lm(purch~group*frequency,data=email)) #compares each email to control group
+summary(lm(purch~frequency + group:frequency,data=email)) 
+#  we choose the second regression model with all significant effects from email 
+# email seems to produce a stronger effect on non-frequent buyers than on frequent buyers
+
+```
+
+```{r}
+### for four brands past purchase buy or not (by category)
+email$purch_chard = (email$chard > 0)
+email$purch_sav = (email$sav_blanc > 0)
+email$purch_syrah = (email$syrah > 0)
+email$purch_cab = (email$cab >0)
+emailt=data.table(email)
+```
+
+
+```{r}
+dagg4 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,purch_chard)]
+dagg4
+#we can see from dagg result that if we do not send email, no matter customer purchased chard or not, they would not buy
+# and email is more effective for people who purchased chard.
+dodge4 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=purch_chard,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg4)+
+  geom_bar(position=dodge4,stat="identity") + 
+  geom_errorbar(position=dodge4)
+labs(x="Group",y="Purchases")
+## I can't tell
+
+#is email more effective for past chard buyers?
+summary(lm(purch~group*purch_chard,data=email))
+summary(lm(purch~purch_chard + group:purch_chard,data=email))
+# regression result verified that email is more effective for past chard buyers
+```
+
+
+```{r}
+dagg5 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,purch_sav)]
+dagg5
+#we can see from dagg result that if we do not send email, no matter customer purchased sav or not, they would not buy
+# and email is more effective for people who did buy sav.
+dodge5 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=purch_sav,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg5)+
+  geom_bar(position=dodge5,stat="identity") + 
+  geom_errorbar(position=dodge5)
+labs(x="Group",y="Purchases")
+
+#is email more effective for past sav buyers?
+summary(lm(purch~group*purch_sav,data=email))
+summary(lm(purch~purch_sav + group:purch_sav,data=email))
+```
+
+
+```{r}
+dagg5 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,purch_sav)]
+dagg5
+#we can see from dagg result that if we do not send email, no matter customer purchased sav or not, they would not buy
+# and email is more effective for people who purchased sav.
+
+#is email more effective for past sav buyers?
+dodge5 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=purch_sav,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg5)+
+  geom_bar(position=dodge5,stat="identity") + 
+  geom_errorbar(position=dodge5)
+labs(x="Group",y="Purchases")
+# email is more effective for people who did buy sav.
+
+summary(lm(purch~group*purch_sav,data=email))
+summary(lm(purch~purch_sav + group:purch_sav,data=email))
+# email is more effective for people who did buy sav.
+
+dagg6 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,purch_syrah)]
+dagg6
+#we can see from dagg result that if we do not send email, no matter customer purchased syrah or not, they would not buy
+# and email is more effective for people who did not buy syrah.
+
+#is email more effective for non- past syrah buyers?
+dodge6 = position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=purch_syrah,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg6)+
+  geom_bar(position=dodge6,stat="identity") + 
+  geom_errorbar(position=dodge6)
+labs(x="Group",y="Purchases")
+# and email is more effective for people who did not buy syrah.
+
+summary(lm(purch~group*purch_syrah,data=email))
+summary(lm(purch~purch_syrah + group:purch_syrah,data=email))
+# purch_syrah and purch_syrah:groupemail are not significant in terms of coefficient, which means that for syrah, email does not have 
+# significant impacts on both consumers who purchased syrah. so email is more effective for customers who did not buy syrah.
+```
+
+
+```{r}
+dagg7 = emailt[,.(open = mean(open), click=mean(click), purch = mean(purch),seOpen = sd(open)/sqrt(.N), seClick=sd(click)/sqrt(.N), sePurch = sd(purch)/sqrt(.N),.N),by = .(group,purch_cab)]
+dagg7
+#we can see from dagg result that email have positive effects on both customers who bought cab or not.
+#and email is more effective for customer who did purachase cab before.
+
+#is email more effective for past cab buyers?
+dodge7= position_dodge(width=1); 
+ggplot(aes(fill=group,y=purch,x=purch_cab,ymax=purch+sePurch,ymin=purch-sePurch),data=dagg7)+
+  geom_bar(position=dodge7,stat="identity") + 
+  geom_errorbar(position=dodge7)
+labs(x="Group",y="Purchases")
+#and email is more effective for customer who did purachase cab before.
+
+summary(lm(purch~group*purch_cab,data=email))
+summary(lm(purch~purch_cab + group:purch_cab,data=email))
+##we can see from regression that email is more effective for past cab buyers
+```
+
+
+########## Q3 individual level conditional causal effect####
+```{r}
+#########Q3 causal forest#####
+email$groupnew = (email$group == 'email')*1
+
+treat1 <- email$groupnew
+response1 <- email$purch
+baseline1 <- email[, c("chard","sav_blanc","syrah","cab","past_purch","last_purch", "visits")]
+tmp1=proc.time()[3]
+cf1 <- causal_forest(baseline1, response1, treat1)
+tmp1 = proc.time()[3]-tmp1
+print(cf1)
+# so past_purchase is the most important, sav_blanc, last_purch, cab, chard,visits and syrah.
+```
+
+```{r}
+#let's predict using cf1 and for id=10
+new_cust1 <- data.frame(chard=0, sav_blanc=72.95, syrah=0, cab=39.51, last_purch=28, visits=4, past_purch =112.46 )
+predict(cf1, new_cust2, estimate.variance = TRUE)
+```
+
+```{r}
+## score each customer 
+email$score <- predict(cf1, email[,7:13], estimate.variance = TRUE)$predictions*0.3-0.1
+nrow(email[email$score > 0, ])
+
+hist(email$score, 
+     main="Histogram of Purchase Lift", 
+     xlab="Purchase Lift for Email", ylab="Customers")
+```
+
+```{r}
+email$target <- email$score > 0
+nrow(subset(email,email$score>0))/nrow(email) ##target 55.6%
+```
+
+
+```{r}
+write_csv <- email[c('user_id', 'score', 'target')]
+write.csv(write_csv, 'consumer_scores.csv')
+```
+
