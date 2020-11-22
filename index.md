@@ -17,6 +17,13 @@
 ### Predictive Analysis
 
 
+### Marketing Profitability Analysis
+
+<ul>
+  <li> <a href="http://q2.pdfdo.com/Download/112219300823/112219300823.html">Decision-oriented Beer Market Potential and Financial Analysis</a> </li></ul>
+ 
+ <p> We need to determine the market potential of a Conquistador beer distributorship in Southwestern Oregon for client through analyzing beer market consumption and client’s financial capability, forecast revenue and cost.
+
 
 ### New Product Launch Strategy-TURF Model
 
@@ -26,11 +33,7 @@
 <p>Wegmans want to idenitfy the necessity of launching new yogurt flavors according to survey sent to a sample of current buyers of Greek Yogurt. We conducted descriptive analysis using SQL to check market share of existed flavors and prospect. Next, we used TURF analysis to calculate reach and predict the best set of next flavors to add to achieve the highest reach according to survey respondents preferences.</p>
 
 
-### Marketing Profitability Analysis
-
-### New Product Launch Strategy-TURF Model
-
-<ul>
-  <li> <a href="http://q2.pdfdo.com/Download/112219300823/112219300823.html"></a> </li></ul>
+  
+  
   
 
