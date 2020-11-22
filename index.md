@@ -1,14 +1,13 @@
 # Jing(Rebecca) ZOU 
-## Project Gallery 
 
-<p>我是邹婧，你可以叫我Rebecca</p>
 <p>欢迎来到我的个人作品网站</p>
 <p>Hello Welcome to my portfolio site</p>
 
 ### Experiement and A/B Test
 
+.[eBay ads A/B testing](https://github.com/Jzou96/Portfolio/blob/gh-pages/Ebay%20Ad%20Experiments%20and%20AB%20Testing.Rmd)
 
-<p></p>
+
 
 <ul>
   <li> <a href="https://www.zhihu.com/people/AJLoveChina">A/B Testing </a> </li>
