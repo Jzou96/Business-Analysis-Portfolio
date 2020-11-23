@@ -46,7 +46,7 @@
 ### Marketing Profitability Analysis
 
 <ul>
-  <li> <a href="http://h7.pdfdo.com/Download/112221100633/112221100633.html">Decision-oriented beer market potential and financial analysis report</a> </li></ul>
+  <li> <a href="https://8334750e-18f1-4f66-ac99-8fb27d0068bb.filesusr.com/ugd/4dc853_f4b28011ba8f44d1909686f3f2375527.pdf">Decision-oriented beer market potential and financial analysis report</a> </li></ul>
  
  <p>We need to determine the market potential of a Conquistador beer distributorship in Southwestern Oregon for client through analyzing beer market consumption and client’s financial capability, forecast revenue and cost.</p>
 
